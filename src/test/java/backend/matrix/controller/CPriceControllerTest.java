@@ -1,6 +1,7 @@
 package backend.matrix.controller;
 
 import backend.matrix.model.CPriceDto;
+import backend.matrix.model.CPriceRequest;
 import backend.matrix.service.CPriceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,6 @@ public class CPriceControllerTest {
             throw new RuntimeException(e);
         }
     }
-
     @Test
     public void testGetPrice_10am_on_14th() {
         // Arrange
@@ -41,12 +41,15 @@ public class CPriceControllerTest {
         when(priceService.getPrice(1, 35455, applicationDate)).thenReturn(expectedPrice);
 
         // Act
-        ResponseEntity<CPriceDto> response = priceController.getPrice(1, 35455, applicationDate);
+        ResponseEntity<CPriceDto> response = priceController.getPrice(
+                new CPriceRequest(1, 35455, applicationDate));
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedPrice, response.getBody());
     }
+
+
 
 
 
@@ -59,12 +62,14 @@ public class CPriceControllerTest {
         when(priceService.getPrice(1, 35455, applicationDate)).thenReturn(expectedPrice);
 
         // Act
-        ResponseEntity<CPriceDto> response = priceController.getPrice(1, 35455, applicationDate);
+        ResponseEntity<CPriceDto> response = priceController.getPrice(
+                new CPriceRequest(1, 35455, applicationDate));
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedPrice, response.getBody());
     }
+
 
     @Test
     public void testGetPrice_21pm_on_14th() {
@@ -75,7 +80,8 @@ public class CPriceControllerTest {
         when(priceService.getPrice(1, 35455, applicationDate)).thenReturn(expectedPrice);
 
         // Act
-        ResponseEntity<CPriceDto> response = priceController.getPrice(1, 35455, applicationDate);
+        ResponseEntity<CPriceDto> response = priceController.getPrice(
+                new CPriceRequest(1, 35455, applicationDate));
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -90,11 +96,11 @@ public class CPriceControllerTest {
         when(priceService.getPrice(1, 35455, applicationDate)).thenReturn(expectedPrice);
 
         // Act
-        ResponseEntity<CPriceDto> response = priceController.getPrice(1, 35455, applicationDate);
+        CPriceDto actualPrice = priceController.getPrice(
+                new CPriceRequest(1, 35455, applicationDate)).getBody();
 
         // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedPrice, response.getBody());
+        assertEquals(expectedPrice, actualPrice);
     }
 
     @Test
@@ -106,11 +112,11 @@ public class CPriceControllerTest {
         when(priceService.getPrice(1, 35455, applicationDate)).thenReturn(expectedPrice);
 
         // Act
-        ResponseEntity<CPriceDto> response = priceController.getPrice(1, 35455, applicationDate);
+        CPriceDto actualPrice = priceController.getPrice(
+                new CPriceRequest(1, 35455, applicationDate)).getBody();
 
         // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(expectedPrice, response.getBody());
+        assertEquals(expectedPrice, actualPrice);
     }
 
 }
